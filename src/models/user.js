@@ -49,7 +49,6 @@ const userSchema = new mongoose.Schema({
     },
     about:{
         type:String,
-        default:"This is a default about of the user!",
     },
     skills:{
         type:[String],
@@ -63,8 +62,8 @@ userSchema.methods.getJWT = async function(){
     
     const token = await jwt.sign({_id:u._id},"tom@7075",{
         expiresIn:"7d",
-    });;
-    return token
+    });
+    return token;
 };
 userSchema.methods.validatePassword = async function(passwordInput){
     const u= this;
@@ -76,4 +75,9 @@ userSchema.methods.validatePassword = async function(passwordInput){
     );
     return isPasswordValid;
 };
-module.exports=mongoose.model("users",userSchema);
+const usersModel = new mongoose.model(
+    "users",
+    userSchema,
+);
+
+module.exports = usersModel;
