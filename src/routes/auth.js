@@ -10,12 +10,16 @@ authRouter.post('/signup',async (req,res)=>{
     
     try{
         validateSignUpData(req);
-        const {firstName,lastName,email,password} = req.body;
+        const {firstName,lastName,email,password,age,gender,about,photoUrl} = req.body;
         const passwordHash = await bcrypt.hash(password,10);
         const user = new User({
             firstName,
             lastName,
             email,
+            age,
+            gender,
+            about,
+            photoUrl,
             password:passwordHash,
         });
         await user.save();
@@ -36,7 +40,7 @@ authRouter.post('/login',async(req,res)=>{
         if(isPasswordValid){
             const token = await u.getJWT();
             res.cookie("token",token);
-            res.send("Login Successfull!!");
+            res.send(u);
         }else{
             throw new Error("Password not correct!");
         }
@@ -48,6 +52,6 @@ authRouter.post('/logout',async (req,res)=>{
     res.cookie("token",null,{
         expires: new Date(Date.now()),
     });
-    res.send("logout Successfull!!");
+    res.send("logout successful");
 });
 module.exports = authRouter;

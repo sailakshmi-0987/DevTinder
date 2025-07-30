@@ -52,7 +52,10 @@ const userSchema = new mongoose.Schema({
     },
     skills:{
         type:[String],
-    }
+    },
+    connections: [
+    { type: mongoose.Schema.Types.ObjectId, ref: "users" } // ✅ Add this
+  ]
 },{
     timestamps:true,
 }
@@ -75,6 +78,7 @@ userSchema.methods.validatePassword = async function(passwordInput){
     );
     return isPasswordValid;
 };
+
 const usersModel = new mongoose.model(
     "users",
     userSchema,
