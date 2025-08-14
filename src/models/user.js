@@ -29,6 +29,7 @@ const userSchema = new mongoose.Schema({
     password : {
         type : String,
        
+       
     },
     age:{
         type:Number,
@@ -54,8 +55,13 @@ const userSchema = new mongoose.Schema({
         type:[String],
     },
     connections: [
-    { type: mongoose.Schema.Types.ObjectId, ref: "users" } // ✅ Add this
-  ]
+    { type: mongoose.Schema.Types.ObjectId, ref: "users" } 
+  ],
+  resetPasswordToken: String,
+  resetPasswordExpires: Date,
+  googleId: { type: String, index: true },
+  provider: { type: String, enum: ["local", "google"], default: "local" },
+
 },{
     timestamps:true,
 }

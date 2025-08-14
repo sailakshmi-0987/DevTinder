@@ -1,5 +1,6 @@
 const express = require("express");
 const userRouter = express.Router();
+const mongoose = require("mongoose");
 
 const {userAuth} = require("../middleware/auth");
 const ConnectionRequest = require("../models/connectionRequest");
@@ -88,4 +89,28 @@ userRouter.get("/feed",userAuth,async(req,res)=>{
         res.status(400).send("ERROR"+err.message);
     }
 });
+
+
+userRouter.get("/user/:id", userAuth, async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ message: "Invalid user ID" });
+    }
+
+    const safeFields = "firstName lastName photoUrl age gender about";
+    const user = await User.findById(id).select(safeFields);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json(user);
+  } catch (error) {
+    console.error("Error fetching user profile:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
 module.exports = userRouter;

@@ -4,7 +4,7 @@ const { userAuth } = require("../middleware/auth");
 const ConnectionRequest = require("../models/connectionRequest");
 const User = require("../models/user");
 
-// ✅ Send Connection Request
+
 requestRouter.post("/request/send/:status/:toUserId", userAuth, async (req, res) => {
   try {
     const fromUserId = req.u._id;
@@ -37,7 +37,6 @@ requestRouter.post("/request/send/:status/:toUserId", userAuth, async (req, res)
   }
 });
 
-// ✅ Review Request (Accept / Reject)
 requestRouter.post("/request/review/:status/:requestId", userAuth, async (req, res) => {
   try {
     const { status, requestId } = req.params;
@@ -58,7 +57,7 @@ requestRouter.post("/request/review/:status/:requestId", userAuth, async (req, r
     connectionRequest.status = status;
     await connectionRequest.save();
 
-    // ✅ Add users to each other's connections if accepted
+  
     if (status === "accepted") {
       await User.findByIdAndUpdate(connectionRequest.fromUserId, {
         $addToSet: { connections: connectionRequest.toUserId },
