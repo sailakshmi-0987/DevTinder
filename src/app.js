@@ -22,11 +22,12 @@ app.use("/",profileRouter);
 app.use("/",requestRouter);
 app.use("/",userRouter);
 
+const PORT = process.env.PORT || 3000;
 
 db()
     .then(()=>{
         console.log("Database connection established");
-        app.listen(3000,()=>{
+        app.listen(PORT,()=>{
             console.log("server is listening at the port 3000");
         });
     })
