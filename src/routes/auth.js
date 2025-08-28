@@ -186,7 +186,7 @@ authRouter.post("/auth/google", async (req, res) => {
     const token = await u.getJWT();
     res.cookie("token", token, {
       secure: true,
-      sameSite: none,
+      sameSite: "none",
       expires: new Date(Date.now() + 7 * 24 * 3600000),
     });
 
