@@ -12,9 +12,9 @@ app.use(cors({
     origin:["https://dev-tinder-frontend-tan.vercel.app","http://localhost:5173"],
     credentials:true,
 }));
-app.get("/", (req, res) => {
+/*app.get("/", (req, res) => {
     res.send("🚀 Backend is running successfully on Render!");
-});
+});*/
 const authRouter = require("./routes/auth");
 const profileRouter = require("./routes/profile");
 const requestRouter = require("./routes/requests");
